@@ -43,7 +43,7 @@ test('E2E_Functionality', async({page})=>{
     await Payment.Click_Pay_Confirm();
     await Payment.confirm_Order_Continue();
     await expect(page.getByRole('heading', { name: 'AutomationExercise' })).toBeVisible();
-       await Signup.click_logout();
+    //    await Signup.click_logout();
    })
 test("Signup_Functionality", async({page})=>{
     Signup= new SignupPage(page);
@@ -64,7 +64,7 @@ test("Signup_Functionality", async({page})=>{
 
 
 
-// test.afterEach(async({page})=>{
-//      Signup= new SignupPage(page);
-//      await Signup.click_logout();
-// })
+test.afterEach(async({page})=>{
+     Signup= new SignupPage(page);
+     await Signup.click_logout();
+})
