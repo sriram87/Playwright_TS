@@ -12,16 +12,16 @@ let product;
 let checkout;
 let Payment;
 
-// test.beforeEach(async({page})=>{
-//     Signup= new SignupPage(page);
-//     await Signup.goto();
-//     await page.waitForLoadState('networkidle')
-// })
-
-test('E2E_Functionality', async({page})=>{
+test.beforeEach(async({page})=>{
     Signup= new SignupPage(page);
     await Signup.goto();
     await page.waitForLoadState('networkidle')
+})
+
+test('E2E_Functionality', async({page})=>{
+    Signup= new SignupPage(page);
+    // await Signup.goto();
+    // await page.waitForLoadState('networkidle')
     await Signup.click_Signup_login();
     await expect(page.getByRole('heading',{name:'Login to your account'})).toBeVisible()
     login= new loginPage(page);
