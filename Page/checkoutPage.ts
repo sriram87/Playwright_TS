@@ -11,6 +11,7 @@ export class checkoutPage{
     cvv_code:Locator;
     name_card:Locator;
     select_country:Locator;
+    // btn_country:Locator;
     place_order:Locator;
     heading_confirmation:Locator;
     btn_signOut:Locator;
@@ -26,7 +27,9 @@ export class checkoutPage{
         this.expiry_day= page.getByRole('combobox').nth(1);
         this.cvv_code= page.getByRole('textbox').nth(1);
         this.name_card= page.getByRole('textbox').nth(2);
-        this.select_country= page.locator("input[placeholder='Select Country']");
+        // this.select_country= page.locator("input[placeholder='Select Country']");
+        this.select_country= page.getByRole('textbox', { name: 'Select Country' });
+        // this.btn_country= page.getByRole('button', { name: ' South Africa' });
         this.place_order= page.getByText('Place Order');
         this.heading_confirmation = page.getByRole('heading', { name: 'Thankyou for the order.' });
         this.btn_signOut= page.getByRole('button', { name: 'Sign Out' });

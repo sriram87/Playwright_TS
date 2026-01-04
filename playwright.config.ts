@@ -1,4 +1,9 @@
 import { chromium, defineConfig, devices, firefox } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../TestData/.env') });
+
 
 /**
  * Read environment variables from file.
@@ -19,17 +24,21 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI === 'true' ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI === 'true' ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+  ['list', { printSteps: true }],
+  ['html', { outputFolder: 'playwright-report', open: 'always' }]
+],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
     // actionTimeout:30000,
-     headless: false,
+    baseURL: process.env.Base_URL,
+    headless: process.env.HEADLESS === 'true' ? true : false,
     ignoreHTTPSErrors: true,
     viewport: { width: 1280, height: 720 },
     video: 'on',
@@ -42,7 +51,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
-      headless: true,
+      headless: false,
       ignoreHTTPSErrors: true,
       viewport: { width: 1280, height: 720 },
       video: 'on',
@@ -54,25 +63,13 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'],
-      headless: true,
-      ignoreHTTPSErrors: true,
-      viewport: { width: 1280, height: 720 },
-      video: 'on',
-      screenshot: 'only-on-failure',
-      trace: 'on'
-       },
+      },
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'],
-      headless: true,
-      ignoreHTTPSErrors: true,
-      viewport: { width: 1280, height: 720 },
-      video: 'on',
-      screenshot: 'only-on-failure',
-      trace: 'on'
-       },
+      },
     },
 
     /* Test against mobile viewports. */

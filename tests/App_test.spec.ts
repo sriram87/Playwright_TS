@@ -1,9 +1,14 @@
 import { test, expect } from '@playwright/test';
-import { Excelutils } from '../Utils/Excelutils';
+import dotenv from 'dotenv';
 import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../TestData/.env') });
+
+import { Excelutils } from '../Utils/Excelutils';
 import { Loginpage } from '../Page/Loginpage';
 import { homePage } from '../Page/homePage';
 import { checkoutPage } from '../Page/checkoutPage';
+
 
 const filepath= path.join(__dirname, "../TestData/excel.xlsx")
 const sheetname = "Login";
@@ -23,7 +28,8 @@ test('Run Excel parameterized tests', async({page})=>{
     for (const data of products)
     {
         login= new Loginpage(page);
-        await login.goto('https://rahulshettyacademy.com/client');
+        await login.goto(process.env.BASE_URL!);
+        // await page.waitForLoadState('networkidle');
         await login.Enter_email_and_password(data.email,data.password);
         await login.Click_login();
         // await login.product_name_visible();
