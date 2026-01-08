@@ -34,8 +34,9 @@ export default defineConfig({
   workers: process.env.CI === 'true' ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-  ['list', { printSteps: true }],
-  ['html', { outputFolder: 'playwright-report', open: 'always' }]
+  // ['list', { printSteps: true }],
+  ['html', { open: 'never' }],
+  ["allure-playwright", { detail: true, outputFolder: "allure-results" }]
 ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -71,11 +72,11 @@ export default defineConfig({
       },
     },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'],
-      },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'],
+    //   },
+    // },
 
     /* Test against mobile viewports. */
     // {

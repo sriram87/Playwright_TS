@@ -13,6 +13,8 @@ import { checkoutPage } from '../Page/checkoutPage';
 const filepath= path.join(__dirname, "../TestData/excel.xlsx")
 const sheetname = "Login";
 
+test.describe.configure({ timeout:30000, mode: 'serial' });
+
 test.describe("Excel-driven tests", ()=>{
 let products: any[]
 let login;
@@ -23,7 +25,7 @@ test.beforeAll( async()=> {
   products = await Excelutils.getExcelData(filepath,sheetname);
 });
 
-test('Run Excel parameterized tests', async({page})=>{
+test('Run Excel parameterized tests', {tag: '@smoke'}, async({page})=>{
 
     for (const data of products)
     {
