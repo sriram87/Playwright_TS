@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '../TestData/.env') });
-
+import { ENV } from '../Utils/ENV';
+ 
 import { Excelutils } from '../Utils/Excelutils';
 import { Loginpage } from '../Page/Loginpage';
 import { homePage } from '../Page/homePage';
@@ -28,7 +28,7 @@ test('Run Excel parameterized tests', async({page})=>{
     for (const data of products)
     {
         login= new Loginpage(page);
-        await login.goto(process.env.BASE_URL!);
+        await login.goto(ENV.baseURL || 'https://rahulshettyacademy.com/client');
         // await page.waitForLoadState('networkidle');
         await login.Enter_email_and_password(data.email,data.password);
         await login.Click_login();

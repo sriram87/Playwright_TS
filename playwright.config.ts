@@ -2,8 +2,13 @@ import { chromium, defineConfig, devices, firefox } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '../TestData/.env') });
 
+
+
+const ENV_NAME= process.env.ENV || 'qa';
+dotenv.config({ path: path.resolve(__dirname,`${ENV_NAME},env`) });
+
+console.log(process.env);
 
 /**
  * Read environment variables from file.

@@ -19,6 +19,7 @@ test.beforeEach(async({page})=>{
 })
 
 test('E2E_Functionality', async({page})=>{
+    test.slow()
     Signup= new SignupPage(page);
     // await Signup.goto();
     // await page.waitForLoadState('networkidle')

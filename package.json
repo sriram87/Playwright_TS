@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:prod": "set ENV=prod && npx playwright test",
+    "test:smokeTest": "npx playwright test --grep @smoke"
+
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
