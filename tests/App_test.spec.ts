@@ -25,7 +25,7 @@ test.beforeAll( async()=> {
   products = await Excelutils.getExcelData(filepath,sheetname);
 });
 
-test('Run Excel parameterized tests', {tag: '@smoke'}, async({page})=>{
+test('Run Excel parameterized tests', {tag: ['@smoke','@Regression']}, async({page})=>{
 
     for (const data of products)
     {
@@ -49,5 +49,21 @@ test('Run Excel parameterized tests', {tag: '@smoke'}, async({page})=>{
         await checkout.click_logout();
     }   
     });        
+
+
+    test('Invalid login ',{tag:'@Regression'}, async({page}) =>{
+
+        for (const data of products){
+
+        login= new Loginpage(page);
+        await login.goto(ENV.baseURL || 'https://rahulshettyacademy.com/client');
+        // await page.waitForLoadState('networkidle');
+        await login.Enter_email_and_password(data.email,data.password);
+        await login.Click_login();
+        const error_message = page.locator("//div[@id='toast-container']")
+        await expect(error_message).toHaveText("Incorrect email or password.");  
+      }
+
+    });
 
 });
