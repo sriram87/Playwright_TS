@@ -1,0 +1,36 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest' # Standard Linux agent
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+- script: npm ci
+  displayName: 'Install Dependencies'
+
+- script: npx playwright install --with-deps
+  displayName: 'Install Playwright Browsers'
+
+- script: npm run test:smoke
+  displayName: 'Run Playwright Tests'
+  env:
+    CI: 'true' # Prevents pipeline from hanging
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'results.xml'
+  displayName: 'Publish Test Results to Azure'
+  condition: succeededOrFailed() # Always run even if tests fail
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'playwright-report'
+    artifact: 'playwright-report'
+  displayName: 'Upload Playwright HTML Report'
+  condition: succeededOrFailed()
