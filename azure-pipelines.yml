@@ -28,13 +28,11 @@ steps:
   displayName: 'Publish Test Results to Azure'
   condition: succeededOrFailed() # Always run even if tests fail
 
-  # 3. Use the Allure Report Task (requires Allure extension installed in Azure)
-- task: PublishAllureReport@1
+- task: PublishAllureReport@2
   inputs:
-    allureVersion: '2.28.0' # Specify the version you want
-    testResultsDir: 'allure-results' # The folder where .json files are saved
-  displayName: 'Generate and Publish Allure Report'
-  condition: always()
+    allureVersion: '2.28.0'
+    testResultsDir: 'allure-results'
+    reportName: 'allure-report'
 
 - task: PublishPipelineArtifact@1
   inputs:
